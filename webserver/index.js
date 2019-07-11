@@ -7,6 +7,7 @@ const httpErrors = require('http-errors')
 const path = require('path')
 const pino = require('pino')
 const pinoHttp = require('pino-http')
+const cors = require('cors')
 
 module.exports = function main(options, cb) {
   // Set default options
@@ -60,6 +61,13 @@ module.exports = function main(options, cb) {
   // Create the express app
   const app = express()
 
+  // implement cors to handle cross origin calls
+  const corsOptions = {
+    origin: 'http://0.0.0.0:3000',
+    credentials: true
+  }
+
+  app.use(cors(corsOptions))
   app.use(express.static(path.join(__dirname, 'public')))
 
   // Template engine
